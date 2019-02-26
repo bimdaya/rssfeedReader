@@ -17,5 +17,10 @@ public class RSSFeedConstants {
     public final static int SUCCESS_CODE = 0;
     public final static int ERROR_CODE = -1;
 
+    // REST attributes
+    public final static String REST_RETURN_DATA_TYPE = "application/json";
+
+    //RSS Configurations
+    public final static String RSS_BASE_URL = "https://news.google.com/news/rss";
 
 }
