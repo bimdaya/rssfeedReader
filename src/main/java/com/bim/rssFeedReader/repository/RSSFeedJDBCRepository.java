@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,11 @@ public class RSSFeedJDBCRepository {
     public List<RSSFeedItem> getTopRssFeeds() {
         return jdbcTemplate.query("SELECT TOP " + RSSFeedConstants.MAX_TOP_VALUES + " * FROM "
                         + RSSFeedConstants.RSSFEED_DB_NAME, new rssFeedRowMapper());
+    }
+
+    public RSSFeedItem getTopRssFeed() {
+        return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM " + RSSFeedConstants.RSSFEED_DB_NAME,
+                new BeanPropertyRowMapper<>(RSSFeedItem.class));
     }
 
     public int insertRssFeed(RSSFeedItem rssFeedItem) {
