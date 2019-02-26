@@ -1,34 +1,23 @@
 package com.bim.rssFeedReader.controller;
 
 import com.bim.rssFeedReader.modal.RSSFeedItem;
-
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Configuration
-@EnableScheduling
+@RequestMapping("/")
+@RestController()
 public class RSSFeedReaderController {
-
-    @Value("${rrs.base.url}")
-    private String rssFeedSourceURL;
     @Autowired
-    private RSSFeedJDBCRepository rssFeedJDBCRepository;
-    private static final RSSFeedReceiver rssFeedReceiver = new RSSFeedReceiver();
+    RSSFeedJDBCRepository rssFeedJDBCRepository;
 
-
-    @Scheduled(fixedDelay = 1000, initialDelay = 0)
-    public void reportCurrentTime() {
-        List<RSSFeedItem> rssFeedItemList = rssFeedReceiver.getRSSFeedItemsIterate(rssFeedSourceURL);
-        for (RSSFeedItem rssFeedItem : rssFeedItemList) {
-            rssFeedJDBCRepository.insertRssFeed(rssFeedItem);
-        }
+    @GetMapping(path = "home", produces = "application/json")
+    public List<RSSFeedItem> getRssFeeds(){
+        return rssFeedJDBCRepository.getTopRssFeeds();
     }
-
 
 }

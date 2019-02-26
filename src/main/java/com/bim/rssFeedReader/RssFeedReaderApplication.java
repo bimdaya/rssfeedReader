@@ -1,6 +1,6 @@
 package com.bim.rssFeedReader;
 
-import com.bim.rssFeedReader.controller.RSSFeedReaderController;
+import com.bim.rssFeedReader.controller.RSSFeedReceiverController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RssFeedReaderApplication {
 
 	@Autowired
-	RSSFeedReaderController rssFeedReaderController;
+    RSSFeedReceiverController rssFeedReceiverController;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RssFeedReaderApplication.class, args);

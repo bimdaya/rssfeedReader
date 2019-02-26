@@ -44,7 +44,7 @@ public class RSSFeedJDBCRepository {
 
     }
 
-    public List<RSSFeedItem> findTopRssFeeds() {
+    public List<RSSFeedItem> getTopRssFeeds() {
         return jdbcTemplate.query("SELECT TOP " + MAX_TOP_VALUES + " * FROM " + RSSFEED_DB_NAME,
                 new rssFeedRowMapper());
     }
