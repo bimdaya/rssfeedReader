@@ -16,7 +16,7 @@ public class RSSFeedReaderController {
     RSSFeedJDBCRepository rssFeedJDBCRepository;
 
     @GetMapping(path = "home", produces = "application/json")
-    public List<RSSFeedItem> getRssFeeds(){
+    public List<RSSFeedItem> getRssFeeds() {
         return rssFeedJDBCRepository.getTopRssFeeds();
     }
 

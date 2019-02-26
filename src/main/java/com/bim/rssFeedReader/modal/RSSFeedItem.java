@@ -10,7 +10,7 @@ public class RSSFeedItem {
     private String description;
     private Long id;
 
-    public RSSFeedItem(){
+    public RSSFeedItem() {
 
     }
 
@@ -26,26 +26,28 @@ public class RSSFeedItem {
         return title;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public Date getPublishedDate() {
-        return publishedDate;
-    }
-
-    public Long getId() {return id;}
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLink() {
+        return link;
     }
 
     public void setLink(String link) {
         this.link = link;
     }
 
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
     public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {

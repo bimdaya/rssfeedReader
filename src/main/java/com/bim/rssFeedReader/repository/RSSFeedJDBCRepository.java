@@ -1,6 +1,11 @@
 package com.bim.rssFeedReader.repository;
 
+import com.bim.rssFeedReader.common.RSSFeedConstants;
 import com.bim.rssFeedReader.modal.RSSFeedItem;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,52 +18,59 @@ import java.util.List;
 @Repository
 public class RSSFeedJDBCRepository {
 
-    //Since there are only a few constants I did not use a separate constant class
-    private final static String RSSFEED_DB_NAME = "rssfeed";
-    private final static String RSSFEED_DB_RSS_ID = "rss_id";
-    private final static String RSSFEED_DB_RSS_TITLE = "title";
-    private final static String RSSFEED_DB_RSS_PUBLISHED_DATE = "published_date";
-    private final static String RSSFEED_DB_RSS_LINK = "link_";
-    private final static String RSSFEED_DB_RSS_DESCRIPTION = "description";
-    private final static String RSSFEED_DB_RSS_SOURCE = "source_";
-    private final static int MAX_TOP_VALUES = 10;
-
+    private static final Logger logger = LoggerFactory.getLogger(RSSFeedJDBCRepository.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public RSSFeedJDBCRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<RSSFeedItem> getTopRssFeeds() {
+        return jdbcTemplate.query("SELECT TOP " + RSSFeedConstants.MAX_TOP_VALUES + " * FROM "
+                        + RSSFeedConstants.RSSFEED_DB_NAME, new rssFeedRowMapper());
+    }
+
+    public int insertRssFeed(RSSFeedItem rssFeedItem) {
+        if (rssFeedItem != null) {
+            return jdbcTemplate.update("INSERT INTO " + RSSFeedConstants.RSSFEED_DB_NAME + " ("
+                            + RSSFeedConstants.RSSFEED_DB_RSS_TITLE + ","
+                            + RSSFeedConstants.RSSFEED_DB_RSS_LINK + ","
+                            + RSSFeedConstants.RSSFEED_DB_RSS_PUBLISHED_DATE + ","
+                            + RSSFeedConstants.RSSFEED_DB_RSS_SOURCE + ","
+                            + RSSFeedConstants.RSSFEED_DB_RSS_DESCRIPTION + " ) "
+                            + " VALUES (?, ?, ?, ?, ?)",
+                    rssFeedItem.getTitle(), rssFeedItem.getLink(), rssFeedItem.getPublishedDate(),
+                    rssFeedItem.getSource(), rssFeedItem.getDescription());
+        } else {
+            logger.warn("Object RSSFeedItem is empty. Data is not added to the database: "
+                    + RSSFeedConstants.RSSFEED_DB_NAME);
+            return RSSFeedConstants.ERROR_CODE;
+        }
+    }
 
     class rssFeedRowMapper implements RowMapper<RSSFeedItem> {
 
         @Override
-        public RSSFeedItem mapRow(ResultSet resultSet, int i) throws SQLException {
-            RSSFeedItem rssFeedItem = new RSSFeedItem();
-            rssFeedItem.setId(resultSet.getLong(RSSFEED_DB_RSS_ID));
-            rssFeedItem.setTitle(resultSet.getString(RSSFEED_DB_RSS_TITLE));
-            rssFeedItem.setLink(resultSet.getString(RSSFEED_DB_RSS_LINK));
-            rssFeedItem.setPublishedDate(resultSet.getDate(RSSFEED_DB_RSS_PUBLISHED_DATE));
-            rssFeedItem.setSource(resultSet.getString(RSSFEED_DB_RSS_SOURCE));
-            rssFeedItem.setDescription(resultSet.getString(RSSFEED_DB_RSS_DESCRIPTION));
-            return rssFeedItem;
+        public RSSFeedItem mapRow(ResultSet resultSet, int i) {
+            try {
+                RSSFeedItem rssFeedItem = new RSSFeedItem();
+                rssFeedItem.setId(resultSet.getLong(RSSFeedConstants.RSSFEED_DB_RSS_ID));
+                rssFeedItem.setTitle(resultSet.getString(RSSFeedConstants.RSSFEED_DB_RSS_TITLE));
+                rssFeedItem.setLink(resultSet.getString(RSSFeedConstants.RSSFEED_DB_RSS_LINK));
+                rssFeedItem.setPublishedDate(resultSet.getDate(RSSFeedConstants.RSSFEED_DB_RSS_PUBLISHED_DATE));
+                rssFeedItem.setSource(resultSet.getString(RSSFeedConstants.RSSFEED_DB_RSS_SOURCE));
+                rssFeedItem.setDescription(resultSet.getString(RSSFeedConstants.RSSFEED_DB_RSS_DESCRIPTION));
+                return rssFeedItem;
+            } catch (SQLException e) {
+                logger.error("Database: " + RSSFeedConstants.RSSFEED_DB_NAME
+                        + ", does not return complete result set for RSS ID: " + RSSFeedConstants.RSSFEED_DB_RSS_ID
+                        + "\n" + e);
+                return null;
+            }
         }
 
-    }
-
-    public List<RSSFeedItem> getTopRssFeeds() {
-        return jdbcTemplate.query("SELECT TOP " + MAX_TOP_VALUES + " * FROM " + RSSFEED_DB_NAME,
-                new rssFeedRowMapper());
-    }
-
-    public int insertRssFeed(RSSFeedItem rssFeedItem) {
-        return jdbcTemplate.update("INSERT INTO " + RSSFEED_DB_NAME + " ("
-                    + RSSFEED_DB_RSS_TITLE + ","
-                    + RSSFEED_DB_RSS_LINK + ","
-                    + RSSFEED_DB_RSS_PUBLISHED_DATE + ","
-                    + RSSFEED_DB_RSS_SOURCE + ","
-                    + RSSFEED_DB_RSS_DESCRIPTION + " ) "
-                    + " VALUES (?, ?, ?, ?, ?)",
-                rssFeedItem.getTitle(), rssFeedItem.getLink(), rssFeedItem.getPublishedDate(),
-                    rssFeedItem.getSource(), rssFeedItem.getDescription());
     }
 
 }

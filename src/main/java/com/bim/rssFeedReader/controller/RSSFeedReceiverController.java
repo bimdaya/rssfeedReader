@@ -1,7 +1,6 @@
 package com.bim.rssFeedReader.controller;
 
 import com.bim.rssFeedReader.modal.RSSFeedItem;
-
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +14,11 @@ import java.util.List;
 @EnableScheduling
 public class RSSFeedReceiverController {
 
+    private static final RSSFeedReceiver rssFeedReceiver = new RSSFeedReceiver();
     @Value("${rrs.base.url}")
     private String rssFeedSourceURL;
     @Autowired
     private RSSFeedJDBCRepository rssFeedJDBCRepository;
-    private static final RSSFeedReceiver rssFeedReceiver = new RSSFeedReceiver();
-
 
     @Scheduled(fixedDelay = 1000, initialDelay = 0)
     public void reportCurrentTime() {
