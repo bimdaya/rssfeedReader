@@ -27,10 +27,6 @@ public class RSSFeedJDBCRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    //jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
-    //jdbcTemplate.execute("CREATE TABLE customers(" +
-    //            "id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
-
 
     class rssFeedRowMapper implements RowMapper<RSSFeedItem> {
 
@@ -38,10 +34,11 @@ public class RSSFeedJDBCRepository {
         public RSSFeedItem mapRow(ResultSet resultSet, int i) throws SQLException {
             RSSFeedItem rssFeedItem = new RSSFeedItem();
             rssFeedItem.setId(resultSet.getLong(RSSFEED_DB_RSS_ID));
-            rssFeedItem.set(resultSet.getString(RSS));
-            rssFeedItem.setLink(resultSet.getString(RSSFEED_DB_LINK));
-            rssFeedItem.setPublishedDate(resultSet.getDate(RSSFEED_DB_PUBLISHED_DATE));
-            rssFeedItem.setTitle(resultSet.getString(RSSFEED_DB_TITLE));
+            rssFeedItem.setTitle(resultSet.getString(RSSFEED_DB_RSS_TITLE));
+            rssFeedItem.setLink(resultSet.getString(RSSFEED_DB_RSS_LINK));
+            rssFeedItem.setPublishedDate(resultSet.getDate(RSSFEED_DB_RSS_PUBLISHED_DATE));
+            rssFeedItem.setSource(resultSet.getString(RSSFEED_DB_RSS_SOURCE));
+            rssFeedItem.setDescription(resultSet.getString(RSSFEED_DB_RSS_DESCRIPTION));
             return rssFeedItem;
         }
 
@@ -54,12 +51,14 @@ public class RSSFeedJDBCRepository {
 
     public int insertRssFeed(RSSFeedItem rssFeedItem) {
         return jdbcTemplate.update("INSERT INTO " + RSSFEED_DB_NAME + " ("
-                        + RSSFEED_DB_AUTHOR_NAMES + ","
-                        + RSSFEED_DB_LINK + ","
-                        + RSSFEED_DB_PUBLISHED_DATE + ","
-                        + RSSFEED_DB_TITLE + " ) "
-                        + " VALUES (?, ?, ?, ?)",
-                rssFeedItem.getAuthors(), rssFeedItem.getLink(), rssFeedItem.getPublishedDate(), rssFeedItem.getTitle());
+                    + RSSFEED_DB_RSS_TITLE + ","
+                    + RSSFEED_DB_RSS_LINK + ","
+                    + RSSFEED_DB_RSS_PUBLISHED_DATE + ","
+                    + RSSFEED_DB_RSS_SOURCE + ","
+                    + RSSFEED_DB_RSS_DESCRIPTION + " ) "
+                    + " VALUES (?, ?, ?, ?, ?)",
+                rssFeedItem.getTitle(), rssFeedItem.getLink(), rssFeedItem.getPublishedDate(),
+                    rssFeedItem.getSource(), rssFeedItem.getDescription());
     }
 
 }

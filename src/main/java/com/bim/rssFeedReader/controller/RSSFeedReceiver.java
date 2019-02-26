@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RSSFeedReceiver {
 
@@ -54,11 +53,11 @@ public class RSSFeedReceiver {
     }
 
     private String getDescrption(String description) {
-        String formatttedDescription = null;
+        String formattedDescription = null;
         if (description != null) {
-            formatttedDescription = description.substring(description.indexOf("<") + 1);
+            formattedDescription = description.substring(description.indexOf("<"));
         }
-        return formatttedDescription;
+        return formattedDescription;
     }
 
 }
