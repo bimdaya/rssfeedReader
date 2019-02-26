@@ -6,12 +6,12 @@ import com.bim.rssFeedReader.modal.RSSFeedItem;
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.http.HTTPException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RequestMapping("/")
@@ -26,7 +26,7 @@ public class RSSFeedReaderController {
         if (rssFeedItemList.isEmpty()) {
             throw new RSSFeedCustomException("RSSFeeds are not found in the database: "
                     + RSSFeedConstants.RSSFEED_DB_NAME + " from the URL: "
-                    +  RSSFeedConstants.RSS_BASE_URL , HttpStatus.NO_CONTENT);
+                    +  RSSFeedConstants.RSS_BASE_URL , HttpStatus.NO_CONTENT.value());
         }
         return rssFeedItemList;
     }

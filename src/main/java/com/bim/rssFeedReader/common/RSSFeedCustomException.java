@@ -10,7 +10,7 @@ public class RSSFeedCustomException extends Exception {
         super(throwable);
     }
 
-    public RSSFeedCustomException(String errorMessage, HttpStatus throwable) {
+    public RSSFeedCustomException(String errorMessage, Throwable throwable) {
         super(errorMessage, throwable);
     }
 

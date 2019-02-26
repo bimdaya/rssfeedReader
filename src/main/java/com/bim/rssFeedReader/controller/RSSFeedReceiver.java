@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RSSFeedReceiver {
 
-    public List<RSSFeedItem> getRSSFeedItemsIterate(String feedSourceURL) {
+    List<RSSFeedItem> getRSSFeedItemsIterate(String feedSourceURL) {
         return getRSSFeedItems(feedSourceURL);
     }
 
