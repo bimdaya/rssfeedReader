@@ -17,8 +17,9 @@ import java.util.List;
 @RequestMapping("/")
 @RestController()
 public class RSSFeedReaderController {
+
     @Autowired
-    RSSFeedJDBCRepository rssFeedJDBCRepository;
+    private RSSFeedJDBCRepository rssFeedJDBCRepository;
 
     @GetMapping(path = "home", produces = RSSFeedConstants.REST_RETURN_DATA_TYPE)
     public List<RSSFeedItem> getRSSFeeds() throws RSSFeedCustomException {

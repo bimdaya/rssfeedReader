@@ -23,10 +23,6 @@ public class RSSFeedJDBCRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public RSSFeedJDBCRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     public List<RSSFeedItem> getTopRssFeeds() {
         return jdbcTemplate.query("SELECT TOP " + RSSFeedConstants.MAX_TOP_VALUES + " * FROM "
                         + RSSFeedConstants.RSSFEED_DB_NAME, new rssFeedRowMapper());

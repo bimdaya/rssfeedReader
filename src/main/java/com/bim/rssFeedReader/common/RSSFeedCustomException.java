@@ -1,18 +1,8 @@
 package com.bim.rssFeedReader.common;
 
-import org.springframework.http.HttpStatus;
-
 public class RSSFeedCustomException extends Exception {
     private int errorCode;
     private String errorMessage;
-
-    public RSSFeedCustomException(Throwable throwable) {
-        super(throwable);
-    }
-
-    public RSSFeedCustomException(String errorMessage, Throwable throwable) {
-        super(errorMessage, throwable);
-    }
 
     public RSSFeedCustomException(String errorMessage) {
         super(errorMessage);
@@ -28,7 +18,7 @@ public class RSSFeedCustomException extends Exception {
         return errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
+    private void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
@@ -36,7 +26,7 @@ public class RSSFeedCustomException extends Exception {
         return errorMessage;
     }
 
-    public void setErrorMessage(String errorMessage) {
+    private void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 }
