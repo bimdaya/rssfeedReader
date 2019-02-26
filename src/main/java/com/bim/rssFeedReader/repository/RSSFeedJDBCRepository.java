@@ -76,7 +76,6 @@ public class RSSFeedJDBCRepository {
 
     /**
      * Implementation of RowMapper<> interface
-     *
      */
     class rssFeedRowMapper implements RowMapper<RSSFeedItem> {
 
