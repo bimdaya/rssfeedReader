@@ -16,6 +16,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ * Manage RSS feeds in H2 database
+ *
+ * @author Bimali Dayananda
+ */
 @Repository
 public class RSSFeedJDBCRepository {
 
@@ -24,16 +30,32 @@ public class RSSFeedJDBCRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * Get RSS feeds in rssfeed table
+     *
+     * @return List of RSSFeedItem beans
+     */
     public List<RSSFeedItem> getTopRssFeeds() {
         return jdbcTemplate.query("SELECT TOP " + RSSFeedConstants.MAX_TOP_VALUES + " * FROM "
                         + RSSFeedConstants.RSSFEED_DB_NAME, new rssFeedRowMapper());
     }
 
+    /**
+     * Get RSS first feed in rssfeed table(Use in Test cases)
+     *
+     * @return RSSFeedItem bean
+     */
     public RSSFeedItem getTopRssFeed() {
         return jdbcTemplate.queryForObject("SELECT TOP 1 * FROM " + RSSFeedConstants.RSSFEED_DB_NAME,
                 new BeanPropertyRowMapper<>(RSSFeedItem.class));
     }
 
+    /**
+     * Get RSS first feed in rssfeed table(Use in Test cases)
+     *
+     * @param rssFeedItem RSSFeedItem bean
+     * @return success/fail, 0/-1
+     */
     public int insertRssFeed(RSSFeedItem rssFeedItem) {
         if (rssFeedItem != null) {
             return jdbcTemplate.update("INSERT INTO " + RSSFeedConstants.RSSFEED_DB_NAME + " ("
@@ -52,6 +74,10 @@ public class RSSFeedJDBCRepository {
         }
     }
 
+    /**
+     * Implementation of RowMapper<> interface
+     *
+     */
     class rssFeedRowMapper implements RowMapper<RSSFeedItem> {
 
         @Override

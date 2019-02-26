@@ -3,6 +3,11 @@ package com.bim.rssFeedReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * RSSFeedApplication
+ *
+ * @author Bimali Dayananda
+ */
 @SpringBootApplication
 public class RSSFeedApplication {
 

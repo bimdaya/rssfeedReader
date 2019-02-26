@@ -1,5 +1,10 @@
 package com.bim.rssFeedReader.common;
 
+/**
+ * Exception handling class for RSFeedApplication
+ *
+ * @author Bimali Dayananda
+ */
 public class RSSFeedCustomException extends Exception {
     private int errorCode;
     private String errorMessage;

@@ -4,8 +4,10 @@ import com.bim.rssFeedReader.common.RSSFeedConstants;
 import com.bim.rssFeedReader.common.RSSFeedCustomException;
 import com.bim.rssFeedReader.modal.RSSFeedItem;
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,6 +15,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
+/**
+ *
+ * Manage(only the Insert function is implemented from CRUD ) RSS feeds in H2 database
+ *
+ * @author Bimali Dayananda
+ */
 @Configuration
 @EnableScheduling
 public class RSSFeedReceiverController {
@@ -23,8 +31,12 @@ public class RSSFeedReceiverController {
     @Autowired
     private RSSFeedJDBCRepository rssFeedJDBCRepository;
 
+    /**
+     *
+     * Insert RSS Feeds to H2 database
+     */
     @Scheduled(fixedDelay = 1000, initialDelay = 0)
-    public void reportCurrentTime() {
+    public void insertRssFeedList() {
         try {
             List<RSSFeedItem> rssFeedItemList = rssFeedReceiver.getRSSFeedItemsIterate();
             for (RSSFeedItem rssFeedItem : rssFeedItemList) {

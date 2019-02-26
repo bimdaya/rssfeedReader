@@ -1,5 +1,10 @@
 package com.bim.rssFeedReader.common;
 
+/**
+ * Constant class for RSSFeedApplication
+ *
+ * @author Bimali Dayananda
+ */
 public class RSSFeedConstants {
 
     //RSS Database constants

@@ -2,12 +2,19 @@ package com.bim.rssFeedReader.modal;
 
 import java.util.Date;
 
+/**
+ * Bean class for RSS Feed Items
+ *
+ * @author Bimali Dayananda
+ */
 public class RSSFeedItem {
+
     private String title;
     private String link;
     private Date publishedDate;
     private String source;
     private String description;
+    //Auto-generated id by H2 database
     private Long id;
 
     public RSSFeedItem() {
