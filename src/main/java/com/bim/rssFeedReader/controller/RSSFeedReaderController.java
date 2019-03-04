@@ -5,6 +5,7 @@ import com.bim.rssFeedReader.common.RSSFeedCustomException;
 import com.bim.rssFeedReader.modal.RSSFeedItem;
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
 
+import com.bim.rssFeedReader.service.RSSFeedReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @RequestMapping("/")
 @RestController()
-public class RSSFeedReaderController {
+public class RSSFeedReaderController implements RSSFeedReaderService {
 
     @Autowired
     private RSSFeedJDBCRepository rssFeedJDBCRepository;
@@ -33,6 +34,7 @@ public class RSSFeedReaderController {
      * @return List of RSSFeedItem beans
      * @throws RSSFeedCustomException when RSSFeedItems are not loaded
      */
+    @Override
     @GetMapping(path = "home", produces = RSSFeedConstants.REST_RETURN_DATA_TYPE)
     public List<RSSFeedItem> getRSSFeeds() throws RSSFeedCustomException {
         List<RSSFeedItem> rssFeedItemList = rssFeedJDBCRepository.getTopRssFeeds();

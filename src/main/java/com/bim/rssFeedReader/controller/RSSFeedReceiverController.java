@@ -5,6 +5,7 @@ import com.bim.rssFeedReader.common.RSSFeedCustomException;
 import com.bim.rssFeedReader.modal.RSSFeedItem;
 import com.bim.rssFeedReader.repository.RSSFeedJDBCRepository;
 
+import com.bim.rssFeedReader.service.RSSFeedReceiverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ import java.util.List;
  */
 @Configuration
 @EnableScheduling
-public class RSSFeedReceiverController {
+public class RSSFeedReceiverController implements RSSFeedReceiverService {
 
     private static final Logger logger = LoggerFactory.getLogger(RSSFeedReceiver.class);
     private static final RSSFeedReceiver rssFeedReceiver = new RSSFeedReceiver();
@@ -35,6 +36,7 @@ public class RSSFeedReceiverController {
      *
      * Insert RSS Feeds to H2 database
      */
+    @Override
     @Scheduled(fixedDelay = 1000, initialDelay = 0)
     public void insertRssFeedList() {
         try {
